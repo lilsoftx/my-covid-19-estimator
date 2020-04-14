@@ -11,16 +11,16 @@ const covid19ImpactEstimator = (data) => {
     reportedCases: 674,
     population: 66622705,
     totalHospitalBeds: 1380614
-  };        
+  };
 
   // getting the time to elapse in days
-  function getTimeToElapse() {
+  function tEF() {
     if (input.periodType === 'days') {
       return input.timeToElapse;
-    } 
+    }
     if (input.periodType === 'weeks') {
       return data.timeToElapse * 7;
-    } 
+    }
     if (input.periodType === 'months') {
       const averageOfmonthsInAYear = 30;
       return Math.round(data.timeToElapse * averageOfmonthsInAYear);
@@ -31,7 +31,7 @@ const covid19ImpactEstimator = (data) => {
   // getting factor
   const getFactor = () => {
     const daysPerDoubleIncrease = 3;
-    return getTimeToElapse() / daysPerDoubleIncrease;
+    return tEF() / daysPerDoubleIncrease;
   };
 
   // currently Infected cases for impact and severe impact
@@ -60,13 +60,14 @@ const covid19ImpactEstimator = (data) => {
   const severeCasesForVentilatorsByRequestedTime = severeInfectionsByRequestedTime * 0.2;
 
   // money to be lost by economy
-  const dollarInFlight = infectionsByRequestedTime * input.region.avgDailyIncomeInUSD * getTimeToElapse(input);
-  const severeDollarInFlight = severeInfectionsByRequestedTime * input.region.avgDailyIncomeInUSD * getTimeToElapse(input);
+  const dollarInFlight = infectionsByRequestedTime * input.region.avgDailyIncomeInUSD * tEF(input);
+  const cal = severeInfectionsByRequestedTime * input.region.avgDailyIncomeInUSD;
+  const severeDollarInFlight = cal * tEF(input);
 
   return {
     data: input,
     impact: {
-      currentlyInfected: currentlyInfected,
+      currentlyInfected,
       infectionsByRequestedTime: infectionsByRequestedTime.toString().split('.')[0],
       severeCasesByRequestedTime: severeCasesByRequestedTime.toString().split('.')[0],
       hospitalBedsByRequestedTime: hospitalBedsByRequestedTime.toString().split('.')[0],
@@ -75,7 +76,7 @@ const covid19ImpactEstimator = (data) => {
       dollarInFlight: dollarInFlight.toFixed(2)
     },
     severeImpact: {
-      currentlyInfected: severeCurrentlyInfected,
+      currentlyInfected,
       infectionsByRequestedTime: severeInfectionsByRequestedTime.toString().split('.')[0],
       severeCasesByRequestedTime: severeSevereCasesByRequestedTime.toString().split('.')[0],
       hospitalBedsByRequestedTime: severeHospitalBedsByRequestedTime.toString().split('.')[0],
@@ -83,7 +84,7 @@ const covid19ImpactEstimator = (data) => {
       casesForVentilatorsByRequestedTime: severeCasesForVentilatorsByRequestedTime.toString().split('.')[0],
       dollarInFlight: severeDollarInFlight.toFixed(2)
     }
-  }
+  };
 };
 
 export default covid19ImpactEstimator;
