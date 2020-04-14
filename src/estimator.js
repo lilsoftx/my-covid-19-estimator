@@ -15,7 +15,7 @@ const covid19ImpactEstimator = (data) => {
 
   // chanllenge 1
   impact.currentlyInfected = Math.trunc(reportedCases * 10);
-  severeImpact.currentlyInfected = Matg.trunc(reportedCases * 50);
+  severeImpact.currentlyInfected = Math.trunc(reportedCases * 50);
 
   // check the timeToElapse in days weeks or months
   let getFactor;
@@ -70,27 +70,28 @@ const covid19ImpactEstimator = (data) => {
   if (periodType === 'months') {
     day = timeToElapse * 30;
 
-   impact.dollarsInFlight = (
-     Math.trunc((impact.infectionsByRequestedTime * compute) / day)
-   );
-   severeImpact.dollarsInFlight = (
-    Math.trunc((severeImpact.infectionsByRequestedTime * compute) / day)
-   );
-  } else if (periodType === 'weeks') {
-    days = timeToElapse * 7;
-
-    impact.dollarsInFlight = (
-     Math.trunc((impact.infectionsByRequestedTime * compute) / day)
-    );
-   severeImpact.dollarsInFlight = (
-    Math.trunc((severeImpact.infectionsByRequestedTime * compute) / day)
-   );
-  } else if (periodType === 'days') {
     impact.dollarsInFlight = (
       Math.trunc((impact.infectionsByRequestedTime * compute) / day)
     );
     severeImpact.dollarsInFlight = (
-     Math.trunc((severeImpact.infectionsByRequestedTime * compute) / day)
+      Math.trunc((severeImpact.infectionsByRequestedTime * compute) / day)
+    );
+  } else if (periodType === 'weeks') {
+    day = timeToElapse * 7;
+
+    impact.dollarsInFlight = (
+     Math.trunc((impact.infectionsByRequestedTime * compute) / day)
+    );
+    severeImpact.dollarsInFlight = (
+      Math.trunc((severeImpact.infectionsByRequestedTime * compute) / day)
+    );
+  } else if (periodType === 'days') {
+    day = timeToElapse * 7;
+    impact.dollarsInFlight = (
+      Math.trunc((impact.infectionsByRequestedTime * compute) / day)
+    );
+    severeImpact.dollarsInFlight = (
+      Math.trunc((severeImpact.infectionsByRequestedTime * compute) / day)
     );
   }
 
