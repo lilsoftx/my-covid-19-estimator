@@ -86,7 +86,8 @@ const covid19ImpactEstimator = (data) => {
       Math.trunc((severeImpact.infectionsByRequestedTime * compute) / day)
     );
   } else if (periodType === 'days') {
-    day = timeToElapse * 7;
+    day = timeToElapse * 1;
+
     impact.dollarsInFlight = (
       Math.trunc((impact.infectionsByRequestedTime * compute) / day)
     );
