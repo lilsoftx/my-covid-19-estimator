@@ -80,7 +80,7 @@ const covid19ImpactEstimator = (data) => {
       casesForVentilatorsByRequestedTime: severeCasesForVentilatorsByRequestedTime.toString().split('.')[0],
       dollarInFlight: severeDollarInFlight.toFixed(2)
     }
-  }
+  };
 };
 
 export default covid19ImpactEstimator;
