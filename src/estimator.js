@@ -23,11 +23,12 @@ const covid19ImpactEstimator = (data) => {
       const averageOfmonthsInAYear = 30;
       return Math.round(data.timeToElapse * averageOfmonthsInAYear);
     }
-  };
+    return true;
+  }
 
   // getting factor
   const getFactor = () => {
-    let daysPerDoubleIncrease = 3;
+    const daysPerDoubleIncrease = 3;
     return getTimeToElapse() / daysPerDoubleIncrease;
   }
 
@@ -36,25 +37,25 @@ const covid19ImpactEstimator = (data) => {
   const severeCurrentlyInfected = input.reportedCases * 50;
 
   // infections by requested time for impact and severe impact
-  const infectionsByRequestedTime = currentlyInfected * (Math.pow(2, getFactor(input)));
-  const severeInfectionsByRequestedTime = severeCurrentlyInfected * (Math.pow(2, getFactor(input)));
+  const infectionsByRequestedTime = currentlyInfected * (2**getFactor(input))
+  const severeInfectionsByRequestedTime = severeCurrentlyInfected * (2**getFactor(input))
 
   // severe cases by requested time for impact and severe impact
-  const severeCasesByRequestedTime = infectionsByRequestedTime * 0.15
-  const severeSevereCasesByRequestedTime = severeInfectionsByRequestedTime * 0.15
+  const severeCasesByRequestedTime = infectionsByRequestedTime * 0.15;
+  const severeSevereCasesByRequestedTime = severeInfectionsByRequestedTime * 0.15;
 
   // hospital beds by requested time for impact and severe impact
-  const percentOfAvailableBeds = input.totalHospitalBeds * 0.35
-  const hospitalBedsByRequestedTime = percentOfAvailableBeds - severeCasesByRequestedTime
-  const severeHospitalBedsByRequestedTime = percentOfAvailableBeds - severeSevereCasesByRequestedTime
+  const percentOfAvailableBeds = input.totalHospitalBeds * 0.35;
+  const hospitalBedsByRequestedTime = percentOfAvailableBeds - severeCasesByRequestedTime;
+  const severeHospitalBedsByRequestedTime = percentOfAvailableBeds - severeSevereCasesByRequestedTime;
 
   // cases of ICU for impact and severe impact
-  const casesForICUByRequestedTime = infectionsByRequestedTime * 0.5
-  const severeCasesForICUByRequestedTime = severeInfectionsByRequestedTime * 0.5
+  const casesForICUByRequestedTime = infectionsByRequestedTime * 0.5;
+  const severeCasesForICUByRequestedTime = severeInfectionsByRequestedTime * 0.5;
 
   // cases that requires ventilation
-  const casesForVentilatorsByRequestedTime = infectionsByRequestedTime * 0.2
-  const severeCasesForVentilatorsByRequestedTime = severeInfectionsByRequestedTime * 0.2
+  const casesForVentilatorsByRequestedTime = infectionsByRequestedTime * 0.2;
+  const severeCasesForVentilatorsByRequestedTime = severeInfectionsByRequestedTime * 0.2;
 
   // money to be lost by economy
   const dollarInFlight = infectionsByRequestedTime * input.region.avgDailyIncomeInUSD * getTimeToElapse(input);
@@ -82,5 +83,5 @@ const covid19ImpactEstimator = (data) => {
     }
   }
 };
-
-export default covid19ImpactEstimator;
+console.log(covid19ImpactEstimator())
+//export default covid19ImpactEstimator;
