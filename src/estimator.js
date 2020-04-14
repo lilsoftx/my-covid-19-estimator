@@ -55,9 +55,9 @@ const covid19ImpactEstimator = (data) => {
   const severeCasesForVentilatorsByRequestedTime = Math.trunc(severeInfectionsByRequestedTime * 0.02);
 
   // money to be lost by economy
-  const dollarInFlight = Math.trunc(infectionsByRequestedTime * input.region.avgDailyIncomeInUSD * timeToElapse);
+  const dollarInFlight = Math.trunc(infectionsByRequestedTime * input.region.avgDailyIncomeInUSD * getFactor);
   const cal = severeInfectionsByRequestedTime * input.region.avgDailyIncomeInUSD;
-  const severeDollarInFlight = Math.trunc(cal * tEF(input));
+  const severeDollarInFlight = Math.trunc(cal * getFactor);
 
   return {
     data: input,
@@ -81,5 +81,5 @@ const covid19ImpactEstimator = (data) => {
     }
   };
 };
-console.log(covid19ImpactEstimator())
-//export default covid19ImpactEstimator;
+
+export default covid19ImpactEstimator;
