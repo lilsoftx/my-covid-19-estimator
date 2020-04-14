@@ -11,54 +11,52 @@ const covid19ImpactEstimator = (data) => {
     reportedCases: 674,
     population: 66622705,
     totalHospitalBeds: 1380614
-    }        
+  };        
 
-    //getting the time to elapse in days
-  const getTimeToElapse = (input) => {
-    if(input.periodType === 'days'){
-        return input.timeToElapse;
+  // getting the time to elapse in days
+  const getTimeToElapse = () => {
+    if (input.periodType === 'days') {
+      return input.timeToElapse;
     }else if(input.periodType === 'weeks'){
-        return data.timeToElapse * 7;
+      return data.timeToElapse * 7;
     }else if(input.periodType === 'months'){
-        let averageOfmonthsInAYear = 30;
-        return Math.round(data.timeToElapse * averageOfmonthsInAYear);
+      let averageOfmonthsInAYear = 30;
+      return Math.round(data.timeToElapse * averageOfmonthsInAYear);
     }
-}
+  }
 
-    //console.log(getTimeToElapse(input))
-
-    //getting factor
-  const getFactor = (input) =>  {
+  // getting factor
+  const getFactor = () =>  {
     let daysPerDoubleIncrease = 3;
-      return getTimeToElapse(input) / daysPerDoubleIncrease;
+      return getTimeToElapse() / daysPerDoubleIncrease;
     }
 
-    //currently Infected cases for impact and severe impact
+  // currently Infected cases for impact and severe impact
   const currentlyInfected = input.reportedCases * 10;
   const severeCurrentlyInfected = input.reportedCases * 50;
 
-    //infections by requested time for impact and severe impact
+  // infections by requested time for impact and severe impact
   const infectionsByRequestedTime = currentlyInfected * (Math.pow(2, getFactor(input)));
   const severeInfectionsByRequestedTime = severeCurrentlyInfected * (Math.pow(2, getFactor(input)));
 
-    //severe cases by requested time for impact and severe impact
+  // severe cases by requested time for impact and severe impact
   const severeCasesByRequestedTime = infectionsByRequestedTime * 0.15
   const severeSevereCasesByRequestedTime = severeInfectionsByRequestedTime * 0.15
 
-    //hospital beds by requested time for impact and severe impact
+  // hospital beds by requested time for impact and severe impact
   const percentOfAvailableBeds = input.totalHospitalBeds * 0.35
   const hospitalBedsByRequestedTime = percentOfAvailableBeds - severeCasesByRequestedTime
   const severeHospitalBedsByRequestedTime = percentOfAvailableBeds - severeSevereCasesByRequestedTime
 
-    //cases of ICU for impact and severe impact
+  // cases of ICU for impact and severe impact
   const casesForICUByRequestedTime = infectionsByRequestedTime * 0.5
   const severeCasesForICUByRequestedTime = severeInfectionsByRequestedTime * 0.5
 
-    //cases that requires ventilation
+  // cases that requires ventilation
   const casesForVentilatorsByRequestedTime = infectionsByRequestedTime * 0.2
   const severeCasesForVentilatorsByRequestedTime = severeInfectionsByRequestedTime * 0.2
 
-    //money to be lost by economy
+  // money to be lost by economy
   const dollarInFlight = infectionsByRequestedTime * input.region.avgDailyIncomeInUSD * getTimeToElapse(input);
   const severeDollarInFlight = severeInfectionsByRequestedTime * input.region.avgDailyIncomeInUSD * getTimeToElapse(input);
 
