@@ -14,12 +14,14 @@ const covid19ImpactEstimator = (data) => {
   };        
 
   // getting the time to elapse in days
-  function getTimeToElapse () {
+  function getTimeToElapse() {
     if (input.periodType === 'days') {
       return input.timeToElapse;
-    } else if (input.periodType === 'weeks') {
+    } 
+    if (input.periodType === 'weeks') {
       return data.timeToElapse * 7;
-    } else if (input.periodType === 'months') {
+    } 
+    if (input.periodType === 'months') {
       const averageOfmonthsInAYear = 30;
       return Math.round(data.timeToElapse * averageOfmonthsInAYear);
     }
@@ -30,24 +32,24 @@ const covid19ImpactEstimator = (data) => {
   const getFactor = () => {
     const daysPerDoubleIncrease = 3;
     return getTimeToElapse() / daysPerDoubleIncrease;
-  }
+  };
 
   // currently Infected cases for impact and severe impact
   const currentlyInfected = input.reportedCases * 10;
   const severeCurrentlyInfected = input.reportedCases * 50;
 
   // infections by requested time for impact and severe impact
-  const infectionsByRequestedTime = currentlyInfected * (2**getFactor(input))
-  const severeInfectionsByRequestedTime = severeCurrentlyInfected * (2**getFactor(input))
+  const infectionsByRequestedTime = currentlyInfected * (2 ** getFactor(input));
+  const severeInfectionsByRequestedTime = severeCurrentlyInfected * (2 ** getFactor(input));
 
   // severe cases by requested time for impact and severe impact
   const severeCasesByRequestedTime = infectionsByRequestedTime * 0.15;
   const severeSevereCasesByRequestedTime = severeInfectionsByRequestedTime * 0.15;
 
   // hospital beds by requested time for impact and severe impact
-  const percentOfAvailableBeds = input.totalHospitalBeds * 0.35;
-  const hospitalBedsByRequestedTime = percentOfAvailableBeds - severeCasesByRequestedTime;
-  const severeHospitalBedsByRequestedTime = percentOfAvailableBeds - severeSevereCasesByRequestedTime;
+  const AvailableBeds = input.totalHospitalBeds * 0.35;
+  const hospitalBedsByRequestedTime = AvailableBeds - severeCasesByRequestedTime;
+  const severeHospitalBedsByRequestedTime = AvailableBeds - severeSevereCasesByRequestedTime;
 
   // cases of ICU for impact and severe impact
   const casesForICUByRequestedTime = infectionsByRequestedTime * 0.5;
@@ -83,5 +85,5 @@ const covid19ImpactEstimator = (data) => {
     }
   }
 };
-console.log(covid19ImpactEstimator())
-//export default covid19ImpactEstimator;
+
+export default covid19ImpactEstimator;
