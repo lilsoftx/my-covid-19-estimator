@@ -60,14 +60,17 @@ const covid19ImpactEstimator = (data) => {
       day = timeToElapse * 30;
       const dollarInFlight = Math.trunc((infectionsByRequestedTime * compute) / day);
       const severeDollarInFlight = Math.trunc((severeInfectionsByRequestedTime * compute) / day);
+      break;
     case 'weeks':
       day = timeToElapse * 7;
       const dollarInFlight = Math.trunc((infectionsByRequestedTime * compute) / day);
       const severeDollarInFlight = Math.trunc((severeInfectionsByRequestedTime * compute) / day);
+      break;
     case 'days':
       day = timeToElapse * 1;
       const dollarInFlight = Math.trunc((infectionsByRequestedTime * compute) / day);
       const severeDollarInFlight = Math.trunc((severeInfectionsByRequestedTime * compute) / day);
+      break;
     default:
   }
 
