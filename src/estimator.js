@@ -1,10 +1,7 @@
 const covid19ImpactEstimator = (data) => {
   const {
     region: {
-      name,
-      avgAge,
-      avgDailyIncomeInUSD,
-      avgDailyIncomePopulation
+      avgDailyIncomeInUSD
     },
     periodType,
     timeToElapse,
@@ -55,12 +52,12 @@ const covid19ImpactEstimator = (data) => {
   const severeCasesForVentilatorsByRequestedTime = Math.trunc(severeInfectionsByRequestedTime * 0.02);
 
   // money to be lost by economy
-  const dollarInFlight = Math.trunc(infectionsByRequestedTime * input.region.avgDailyIncomeInUSD * getFactor);
-  const cal = severeInfectionsByRequestedTime * input.region.avgDailyIncomeInUSD;
+  const dollarInFlight = Math.trunc(infectionsByRequestedTime * region.avgDailyIncomeInUSD * getFactor);
+  const cal = severeInfectionsByRequestedTime * region.avgDailyIncomeInUSD;
   const severeDollarInFlight = Math.trunc(cal * getFactor);
 
   return {
-    data: input,
+    data,
     impact: {
       currentlyInfected,
       infectionsByRequestedTime,
@@ -71,7 +68,7 @@ const covid19ImpactEstimator = (data) => {
       dollarInFlight
     },
     severeImpact: {
-      currentlyInfected = severeCurrentlyInfected,
+      currentlyInfected: severeCurrentlyInfected,
       infectionsByRequestedTime: severeInfectionsByRequestedTime,
       severeCasesByRequestedTime: severeSevereCasesByRequestedTime,
       hospitalBedsByRequestedTime: severeHospitalBedsByRequestedTime,
