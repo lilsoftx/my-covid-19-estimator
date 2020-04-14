@@ -49,13 +49,14 @@ const covid19ImpactEstimator = (data) => {
 
   // cases that requires ventilation
   const casesForVentilatorsByRequestedTime = Math.trunc(infectionsByRequestedTime * 0.02);
-  const severeCasesForVentilatorsByRequestedTime = Math.trunc(severeInfectionsByRequestedTime * 0.02);
+  const solve = severeInfectionsByRequestedTime * 0.02;
+  const severeCasesForVentilatorsByRequestedTime = Math.trunc(solve);
 
   // money to be lost by economy
   let day;
   let dollarInFlight;
   let severeDollarInFlight;
-  const compute = population * avgDailyIncomeInUSD;
+  const compute = region.population * region.avgDailyIncomeInUSD;
   if (periodType === 'months') {
     day = timeToElapse * 30;
     dollarInFlight = Math.trunc((infectionsByRequestedTime) * compute / day);
