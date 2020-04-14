@@ -10,22 +10,23 @@ const covid19ImpactEstimator = (data) => {
     timeToElapse: 58,
     reportedCases: 674,
     population: 66622705,
-    totalHospitalBeds: 1380614};        
+    totalHospitalBeds: 1380614
+  };        
 
   // getting the time to elapse in days
-  const getTimeToElapse = () => {
+  function getTimeToElapse () {
     if (input.periodType === 'days') {
       return input.timeToElapse;
     } else if (input.periodType === 'weeks') {
-        return data.timeToElapse * 7;
+      return data.timeToElapse * 7;
     } else if (input.periodType === 'months') {
-        const averageOfmonthsInAYear = 30;
-        return Math.round(data.timeToElapse * averageOfmonthsInAYear);
+      const averageOfmonthsInAYear = 30;
+      return Math.round(data.timeToElapse * averageOfmonthsInAYear);
     }
-  }
+  };
 
   // getting factor
-  const getFactor = () =>  {
+  const getFactor = () => {
     let daysPerDoubleIncrease = 3;
     return getTimeToElapse() / daysPerDoubleIncrease;
   }
