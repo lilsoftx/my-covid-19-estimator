@@ -54,24 +54,21 @@ const covid19ImpactEstimator = (data) => {
 
   // money to be lost by economy
   let day;
+  const dollarInFlight;
+  const severeDollarInFlight;
   const compute = population * avgDailyIncomeInUSD;
-  switch (periodType) {
-    case 'months':
-      day = timeToElapse * 30;
-      const dollarInFlight = Math.trunc((infectionsByRequestedTime * compute) / day);
-      const severeDollarInFlight = Math.trunc((severeInfectionsByRequestedTime * compute) / day);
-      break;
-    case 'weeks':
-      day = timeToElapse * 7;
-      dollarInFlight = Math.trunc((infectionsByRequestedTime * compute) / day);
-      severeDollarInFlight = Math.trunc((severeInfectionsByRequestedTime * compute) / day);
-      break;
-    case 'days':
-      day = timeToElapse * 1;
-      dollarInFlight = Math.trunc((infectionsByRequestedTime * compute) / day);
-      severeDollarInFlight = Math.trunc((severeInfectionsByRequestedTime * compute) / day);
-      break;
-    default:
+  if (periodType === 'months') {
+    day = timeToElapse * 30;
+    dollarInFlight = Math.trunc((infectionsByRequestedTime * compute) / day);
+    severeDollarInFlight = Math.trunc((severeInfectionsByRequestedTime * compute) / day);
+  } else if (periodType === 'weeks') {
+    days = timeToElapse * 7;
+    dollarInFlight = Math.trunc((infectionsByRequestedTime * compute) / day);
+    severeDollarInFlight = Math.trunc((severeInfectionsByRequestedTime * compute) / day);
+  } else if (periodType === 'days') {
+    days = timeToElapse * 1;
+    dollarInFlight = Math.trunc((infectionsByRequestedTime * compute) / day);
+    severeDollarInFlight = Math.trunc((severeInfectionsByRequestedTime * compute) / day);
   }
 
   return {
